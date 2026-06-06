@@ -1,13 +1,19 @@
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-def load_docs(path):
-    loader = PyPDFLoader(path)
-    return loader.load()
 
-def split_docs(docs):
+def load_and_split(pdf_path):
+    loader = PyPDFLoader(pdf_path)
+    docs = loader.load()
+
+    if not docs:
+        raise ValueError("No documents loaded from PDF")
+
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
-        chunk_overlap=150
+        chunk_size=1000,
+        chunk_overlap=200
     )
-    return splitter.split_documents(docs)
+
+    chunks = splitter.split_documents(docs)
+
+    return chunks

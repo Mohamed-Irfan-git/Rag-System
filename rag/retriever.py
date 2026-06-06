@@ -1,5 +1,8 @@
 def get_retriever(db):
     return db.as_retriever(
-        search_type="mmr",  
-        search_kwargs={"k": 5}
+        search_type="mmr",
+        search_kwargs={
+            "k": 5,
+            "fetch_k": 20
+        }
     )
